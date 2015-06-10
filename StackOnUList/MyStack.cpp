@@ -39,6 +39,18 @@ bool MyStack::pop()
     return true;
 }
 
+void MyStack::swap(MyStack &sec_stack)
+{
+    size_t tmp_s_size = s_size;
+    UList *tmp_s_top = s_top;
+
+    s_size = sec_stack.s_size;
+    s_top = sec_stack.s_top;
+
+    sec_stack.s_size = tmp_s_size;
+    sec_stack.s_top = tmp_s_top;
+}
+
 Data MyStack::top() const
 {
     return !empty() ? s_top->l_data : -1;

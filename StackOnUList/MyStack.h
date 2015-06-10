@@ -2,19 +2,23 @@
 
 typedef int Data;
 
-struct UList {
-    Data l_data;
-    UList *l_next;
-};
+
 
 class MyStack
 {
+    struct UList {
+        Data l_data;
+        UList *l_next;
+    };
+
 public:
     MyStack(void);
     ~MyStack(void);
 
     void push(Data);
     bool pop();
+
+    void swap(MyStack&);
 
     Data top() const;
     size_t size() const;

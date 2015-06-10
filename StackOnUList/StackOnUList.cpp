@@ -10,25 +10,43 @@ void show_top_info(MyStack &s)
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-    MyStack s;
-    int size = 20;
+    MyStack s1;
+    s1.push(10);
+    s1.push(11);
+    s1.push(12);
 
-    for (int i=0; i<size; i++)
-        s.push(i);
+    MyStack s2;
+    s2.push(20);
+    s2.push(21);
+    s2.push(22);
 
-    for (int i=0; i<size+2; i++) {
-        show_top_info(s);   s.pop();
-    }
+    show_top_info(s1);   s1.pop();
+    show_top_info(s2);   s2.pop();
 
-    s.push(20);
-    s.push(21);
-    show_top_info(s);   s.pop();
-    s.push(23);
-    s.push(24);
-    show_top_info(s);   s.pop();
-    show_top_info(s);   s.pop();
+    s1.swap(s2);
+    show_top_info(s1);   s1.pop();
+    show_top_info(s2);   s2.pop();
 
-    s.push(25);
+
+    //MyStack s;
+    //int size = 20;
+
+    //for (int i=0; i<size; i++)
+    //    s.push(i);
+
+    //for (int i=0; i<size+2; i++) {
+    //    show_top_info(s);   s.pop();
+    //}
+
+    //s.push(20);
+    //s.push(21);
+    //show_top_info(s);   s.pop();
+    //s.push(23);
+    //s.push(24);
+    //show_top_info(s);   s.pop();
+    //show_top_info(s);   s.pop();
+
+    //s.push(25);
 
     system("pause");
 
