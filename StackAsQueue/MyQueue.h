@@ -3,39 +3,38 @@
 template <typename T>
 class MyQueue {
 public:
+
     void push(T);
     T pop();
 
 private:
-    void revers(std::stack<T> &);
+    void refresh_stacks();
 
 private:
-    std::stack<T> stack_buf;
+    std::stack<T> dstack_buf;	//direct stack
+    std::stack<T> rstack_buf;	//revers stack (to make access to first member)
 };
 
 template <typename T>
 void MyQueue<T>::push(T val) {
-    stack_buf.push(val);
-}
-
-template <typename T>
-void MyQueue<T>::revers(std::stack<T> & inp) {
-    std::stack<T> tmp;
-    while (!inp.empty()) {
-        tmp.push(inp.top());
-        inp.pop();
-    }
-
-    inp = tmp;
+    dstack_buf.push(val);
 }
 
 template <typename T>
 T MyQueue<T>::pop() {
-    revers(stack_buf);
+    if (rstack_buf.empty()) 
+        refresh_stacks();
     
-    T res = stack_buf.top();
-    stack_buf.pop();
-    revers(stack_buf);
-    
+    T res = rstack_buf.top();
+    rstack_buf.pop();
+
     return res;
+}
+
+template <typename T>
+void MyQueue<T>::refresh_stacks() {
+    while (!dstack_buf.empty()) {
+        rstack_buf.push(dstack_buf.top());
+        dstack_buf.pop();
+    }
 }
