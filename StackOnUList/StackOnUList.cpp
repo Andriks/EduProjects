@@ -5,7 +5,16 @@
 
 void show_top_info(MyStack &s)
 {
-    std::cout << s.top() << "  ||  " << s.size() << "  ||  " << s.empty() << std::endl;
+    std::cout << s.top() << "  ||  " << s.size() << std::endl;
+}
+
+void foo(MyStack s)
+{
+    std::cout << "foo" << std::endl;
+    while (!s.empty()) {
+        std::cout << s.top() << "  ||  " << s.size() << std::endl;
+        s.pop();
+    }
 }
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -14,18 +23,37 @@ int _tmain(int argc, _TCHAR* argv[])
     s1.push(10);
     s1.push(11);
     s1.push(12);
+    
+    foo(s1);
 
     MyStack s2;
     s2.push(20);
     s2.push(21);
     s2.push(22);
 
+    MyStack s3(s2);
+    MyStack s4;
+    s4 = s2;
+
+    std::cout << "swap test" << std::endl;
     show_top_info(s1);   s1.pop();
     show_top_info(s2);   s2.pop();
 
     s1.swap(s2);
     show_top_info(s1);   s1.pop();
     show_top_info(s2);   s2.pop();
+
+
+    std::cout << "copy constr test" << std::endl;
+    show_top_info(s3);   s3.pop();
+    show_top_info(s3);   s3.pop();
+    show_top_info(s3);   s3.pop();
+
+    std::cout << "oper= test" << std::endl;
+    show_top_info(s4);   s4.pop();
+    show_top_info(s4);   s4.pop();
+    show_top_info(s4);   s4.pop();
+
 
 
     //MyStack s;

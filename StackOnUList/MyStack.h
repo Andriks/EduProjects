@@ -13,7 +13,10 @@ class MyStack
 
 public:
     MyStack(void);
+    MyStack(const MyStack&);
     ~MyStack(void);
+
+    MyStack& operator=(const MyStack&);
 
     void push(Data);
     bool pop();
@@ -23,6 +26,9 @@ public:
     Data top() const;
     size_t size() const;
     bool empty() const;
+
+private:
+    void copy_stack(UList*);
 
 private:
     size_t s_size;

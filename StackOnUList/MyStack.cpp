@@ -2,15 +2,32 @@
 #include "MyStack.h"
 
 
-MyStack::MyStack(void): s_size(0)
+MyStack::MyStack(void): s_size(0), s_top(NULL)
 {
 }
 
+MyStack::MyStack(const MyStack &base): s_size(0), s_top(NULL)
+{
+    if (base.s_top == NULL)
+        return;
+
+    copy_stack(base.s_top);
+}
 
 MyStack::~MyStack(void)
 {
-    while(!empty())
+    while (!empty())
         pop();
+}
+
+MyStack& MyStack::operator=(const MyStack &base)
+{
+    if (base.s_top == NULL)
+        return *this;
+
+    copy_stack(base.s_top);
+
+    return *this;
 }
 
 void MyStack::push(Data val)
@@ -26,7 +43,7 @@ void MyStack::push(Data val)
 
 bool MyStack::pop()
 {
-    if (empty())
+    if (s_top == NULL)
         return false;
 
     UList *next_top = s_top->l_next;
@@ -65,4 +82,12 @@ size_t MyStack::size() const
 bool MyStack::empty() const
 {
     return s_size == 0 ? true : false;
+}
+
+void MyStack::copy_stack(UList *el)
+{
+    if (el->l_next != NULL)
+        copy_stack(el->l_next);
+
+    push(el->l_data);
 }
