@@ -29,6 +29,7 @@ public:
 
 private:
     void copy_stack(UList*);
+    void clear_stack();
 
 private:
     size_t s_size;

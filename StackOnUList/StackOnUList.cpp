@@ -34,6 +34,7 @@ int _tmain(int argc, _TCHAR* argv[])
     MyStack s3(s2);
     MyStack s4;
     s4 = s2;
+    s4 = s4;
 
     std::cout << "swap test" << std::endl;
     show_top_info(s1);   s1.pop();
@@ -55,6 +56,16 @@ int _tmain(int argc, _TCHAR* argv[])
     show_top_info(s4);   s4.pop();
 
 
+    MyStack s5;
+    s5.push(50);    s5.push(51);    s5.push(52);
+    MyStack s6;
+    s6.push(60);    s6.push(61);
+    s5 = s6;
+
+    std::cout << "test for not empty stack" << std::endl;
+    show_top_info(s5);   s5.pop();
+    show_top_info(s5);   s5.pop();
+    show_top_info(s5);   s5.pop();
 
     //MyStack s;
     //int size = 20;

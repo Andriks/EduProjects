@@ -16,12 +16,17 @@ MyStack::MyStack(const MyStack &base): s_size(0), s_top(NULL)
 
 MyStack::~MyStack(void)
 {
-    while (!empty())
-        pop();
+    clear_stack();
 }
 
 MyStack& MyStack::operator=(const MyStack &base)
 {
+    //no need to do anything
+    if (base.s_top == s_top)
+        return *this;
+
+    clear_stack();
+
     if (base.s_top == NULL)
         return *this;
 
@@ -84,4 +89,10 @@ void MyStack::copy_stack(UList *el)
         copy_stack(el->l_next);
 
     push(el->l_data);
+}
+
+void MyStack::clear_stack()
+{
+    while (!empty())
+        pop();
 }
