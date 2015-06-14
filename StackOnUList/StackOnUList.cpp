@@ -3,6 +3,14 @@
 
 #include "stdafx.h"
 
+//includes from stdafx.h
+#include <SDKDDKVer.h>
+//#include <stdio.h>
+#include <tchar.h>
+
+#include <iostream>
+#include "MyStack.h"
+
 void show_top_info(MyStack &s)
 {
     std::cout << s.top() << "  ||  " << s.size() << std::endl;
@@ -65,7 +73,7 @@ int _tmain(int argc, _TCHAR* argv[])
     std::cout << "test for not empty stack" << std::endl;
     show_top_info(s5);   s5.pop();
     show_top_info(s5);   s5.pop();
-    show_top_info(s5);   s5.pop();
+//    show_top_info(s5);   s5.pop();
 
     //MyStack s;
     //int size = 20;

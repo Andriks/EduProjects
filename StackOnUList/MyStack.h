@@ -2,8 +2,6 @@
 
 typedef int Data;
 
-
-
 class MyStack
 {
     struct UList {
@@ -36,3 +34,10 @@ private:
     UList *s_top;
 };
 
+//don't works ((
+//namespace std {
+//    template<class MyStack>
+//    void swap(MyStack &a, MyStack &b) {
+//        a.swap(b);
+//    }
+//}

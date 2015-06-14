@@ -1,16 +1,18 @@
 #include "StdAfx.h"
 #include "MyStack.h"
 
+#include <algorithm>
+#include <cassert>
 
-MyStack::MyStack(void): s_size(0), s_top(NULL)
+
+MyStack::MyStack(void): s_size(0),
+                        s_top(NULL)
 {
 }
 
-MyStack::MyStack(const MyStack &base): s_size(0), s_top(NULL)
+MyStack::MyStack(const MyStack &base): s_size(0),
+                                       s_top(NULL)
 {
-    if (base.s_top == NULL)
-        return;
-
     copy_stack(base.s_top);
 }
 
@@ -25,11 +27,9 @@ MyStack& MyStack::operator=(const MyStack &base)
     if (base.s_top == s_top)
         return *this;
 
+    //clear current obj (if it has some)
     clear_stack();
-
-    if (base.s_top == NULL)
-        return *this;
-
+    //coping base obj in current obj
     copy_stack(base.s_top);
 
     return *this;
@@ -69,7 +69,9 @@ void MyStack::swap(MyStack &sec_stack)
 
 Data MyStack::top() const
 {
-    return !empty() ? s_top->l_data : -1;
+    assert(!empty());
+
+    return s_top->l_data;
 }
 
 size_t MyStack::size() const
@@ -85,8 +87,10 @@ bool MyStack::empty() const
 
 void MyStack::copy_stack(UList *el)
 {
-    if (el->l_next != NULL)
-        copy_stack(el->l_next);
+    if (el == NULL)
+        return;
+
+    copy_stack(el->l_next);
 
     push(el->l_data);
 }
