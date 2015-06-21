@@ -1,10 +1,10 @@
-// StackAsQueue.cpp : Defines the entry point for the console application.
-//
+#include <iostream>
 
-#include "stdafx.h"
+#include "myqueue.h"
 
 
-int _tmain(int argc, _TCHAR* argv[])
+
+int main()
 {
 
     int size = 3;
@@ -26,7 +26,7 @@ int _tmain(int argc, _TCHAR* argv[])
     std::cout << q.pop() << std::endl;
     //std::cout << q.pop() << std::endl;
 
-   	q.push(668);
+    q.push(668);
     q.push(669);
     std::cout << q.pop() << std::endl;
     std::cout << q.pop() << std::endl;

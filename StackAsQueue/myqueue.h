@@ -1,4 +1,7 @@
-#pragma once
+#ifndef MYQUEUE_H
+#define MYQUEUE_H
+
+#include <stack>
 
 template <typename T>
 class MyQueue {
@@ -22,9 +25,9 @@ void MyQueue<T>::push(T val) {
 
 template <typename T>
 T MyQueue<T>::pop() {
-    if (rstack_buf.empty()) 
+    if (rstack_buf.empty())
         refresh_stacks();
-    
+
     T res = rstack_buf.top();
     rstack_buf.pop();
 
@@ -38,3 +41,6 @@ void MyQueue<T>::refresh_stacks() {
         dstack_buf.pop();
     }
 }
+
+
+#endif // MYQUEUE_H
