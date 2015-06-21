@@ -3,5 +3,10 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp
+SOURCES += \
+    stackonulist.cpp \
+    mystack.cpp
+
+HEADERS += \
+    mystack.h
 

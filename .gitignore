@@ -33,7 +33,7 @@ Makefile*
 *.qmlproject.user
 *.qmlproject.user.*
 
-debug\*
-release\*
-debug/*
-release/*
+*\debug\*
+*\release\*
+*/debug/*
+*/release/*

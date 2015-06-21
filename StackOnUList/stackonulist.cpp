@@ -1,15 +1,7 @@
-// StackOnUList.cpp : Defines the entry point for the console application.
-//
 
-#include "stdafx.h"
-
-//includes from stdafx.h
-#include <SDKDDKVer.h>
-//#include <stdio.h>
-#include <tchar.h>
 
 #include <iostream>
-#include "MyStack.h"
+#include "mystack.h"
 
 void show_top_info(MyStack &s)
 {
@@ -25,13 +17,13 @@ void foo(MyStack s)
     }
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int main()
 {
     MyStack s1;
     s1.push(10);
     s1.push(11);
     s1.push(12);
-    
+
     foo(s1);
 
     MyStack s2;
@@ -97,6 +89,6 @@ int _tmain(int argc, _TCHAR* argv[])
 
     system("pause");
 
-	return 0;
+    return 0;
 }
 
