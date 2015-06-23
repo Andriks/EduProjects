@@ -3,8 +3,9 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp \
-    memmrg.cpp
+SOURCES += \
+    memmrg.cpp \
+    mrg_main.cpp
 
 HEADERS += \
     memmrg.h

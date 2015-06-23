@@ -8,17 +8,10 @@ class MemMrg
 {
     struct MrgItem
     {
-        Data *item_val;
-        bool item_used;
+        MrgItem();
 
-        MrgItem():item_used(false)
-        {
-          item_val = new Data;
-        }
-
-        ~MrgItem() {
-            delete item_val;
-        }
+        Data item_val_;
+        MrgItem *next_;
     };
 
 public:
@@ -34,9 +27,9 @@ private:
     MemMrg &operator=(const MemMrg&);
 
 private:
-    const int max_buf_size;
-    int cur_buf_size;
-    MrgItem *mrg_buf;
+    const int max_size_;
+    MrgItem *mrg_buf_;
+    MrgItem *head_;
 
 };
 
