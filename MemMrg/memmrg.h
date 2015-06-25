@@ -26,6 +26,9 @@ private:
     MemMrg(const MemMrg&);
     MemMrg &operator=(const MemMrg&);
 
+    //checking if free obj in range of memory of our buffer
+    bool isInRange(Data*);
+
 private:
     const int max_size_;
     MrgItem *mrg_buf_;

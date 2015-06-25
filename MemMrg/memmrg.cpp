@@ -1,6 +1,7 @@
 #include "memmrg.h"
 
 #include <cassert>
+#include <iostream>
 
 MemMrg::MrgItem::MrgItem():next_(NULL)
 {
@@ -27,7 +28,7 @@ MemMrg::~MemMrg()
 
 Data *MemMrg::my_alloc(Data alloc_item)
 {
-    assert(!(head_->next_ == NULL));
+    assert(!(head_ == NULL));
 
     MrgItem* next_head = head_->next_;
     head_->item_val_ = alloc_item;
@@ -43,8 +44,11 @@ Data *MemMrg::my_alloc(Data alloc_item)
 void MemMrg::my_free(Data *free_item)
 {
     //try to free memory not from current range
-    if (&(mrg_buf_->item_val_) > free_item || &((mrg_buf_+max_size_)->item_val_) < free_item)
-        assert(false);
+    assert(isInRange(free_item));
+
+    MrgItem *add2listItem = reinterpret_cast<MrgItem *> (free_item);
+    add2listItem->next_ = head_;
+    head_ = add2listItem;
 }
 
 MemMrg::MemMrg(const MemMrg &mem):max_size_(0)
@@ -57,3 +61,13 @@ MemMrg &MemMrg::operator=(const MemMrg &mem)
     assert(false);
 }
 
+bool MemMrg::isInRange(Data *item2check)
+{
+    if (&(mrg_buf_->item_val_) > item2check)
+        return false;
+
+    if (&((mrg_buf_+max_size_)->item_val_) < item2check)
+        return false;
+
+    return true;
+}
