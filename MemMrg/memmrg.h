@@ -4,6 +4,7 @@
 
 typedef int Data;
 
+
 class MemMrg
 {
     struct MrgItem
@@ -18,8 +19,8 @@ public:
     MemMrg(const int max_size = 100);
     ~MemMrg();
 
-    Data* my_alloc(Data init_value = 0);
-    void my_free(Data*);
+    void* my_alloc(Data init_value = 0);
+    void my_free(void*);
 
 private:
     //copy forbiddance
@@ -27,7 +28,7 @@ private:
     MemMrg &operator=(const MemMrg&);
 
     //checking if free obj in range of memory of our buffer
-    bool isInRange(Data*);
+    bool isInRange(void *);
 
 private:
     const int max_size_;

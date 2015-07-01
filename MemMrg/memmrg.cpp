@@ -2,8 +2,11 @@
 
 #include <cassert>
 #include <iostream>
+#include <new>
 
-MemMrg::MrgItem::MrgItem():next_(NULL)
+
+MemMrg::MrgItem::MrgItem():
+    next_(NULL)
 {
 }
 
@@ -26,7 +29,7 @@ MemMrg::~MemMrg()
     delete [] mrg_buf_;
 }
 
-Data *MemMrg::my_alloc(Data alloc_item)
+void *MemMrg::my_alloc(Data alloc_item)
 {
     assert(!(head_ == NULL));
 
@@ -34,14 +37,14 @@ Data *MemMrg::my_alloc(Data alloc_item)
     head_->item_val_ = alloc_item;
     head_->next_ = NULL;
 
-    Data* result = &head_->item_val_;
+    void* result = reinterpret_cast<void *> (head_);
 
     head_ = next_head;
 
     return result;
 }
 
-void MemMrg::my_free(Data *free_item)
+void MemMrg::my_free(void *free_item)
 {
     //try to free memory not from current range
     assert(isInRange(free_item));
@@ -51,7 +54,8 @@ void MemMrg::my_free(Data *free_item)
     head_ = add2listItem;
 }
 
-MemMrg::MemMrg(const MemMrg &mem):max_size_(0)
+MemMrg::MemMrg(const MemMrg &mem):
+    max_size_(0)
 {
     assert(false);
 }
@@ -61,7 +65,7 @@ MemMrg &MemMrg::operator=(const MemMrg &mem)
     assert(false);
 }
 
-bool MemMrg::isInRange(Data *item2check)
+bool MemMrg::isInRange(void *item2check)
 {
     if (&(mrg_buf_->item_val_) > item2check)
         return false;
