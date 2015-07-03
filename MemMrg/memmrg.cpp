@@ -1,8 +1,6 @@
 #include "memmrg.h"
 
-#include <cassert>
-#include <iostream>
-#include <new>
+#include <stdexcept>
 
 
 MemMrg::MrgItem::MrgItem():
@@ -11,9 +9,10 @@ MemMrg::MrgItem::MrgItem():
 }
 
 
-MemMrg::MemMrg(const int max_size):max_size_(max_size),
-                                   mrg_buf_(NULL),
-                                   head_(NULL)
+MemMrg::MemMrg(const int max_size):
+    max_size_(max_size),
+    mrg_buf_(NULL),
+    head_(NULL)
 {
     mrg_buf_ = new MrgItem [max_size_];
     head_ = mrg_buf_;
@@ -31,7 +30,10 @@ MemMrg::~MemMrg()
 
 void *MemMrg::my_alloc(Data alloc_item)
 {
-    assert(!(head_ == NULL));
+    //no free memory in buffer
+    if (head_ == NULL)
+        throw std::bad_alloc();
+
 
     MrgItem* next_head = head_->next_;
     head_->item_val_ = alloc_item;
@@ -47,22 +49,13 @@ void *MemMrg::my_alloc(Data alloc_item)
 void MemMrg::my_free(void *free_item)
 {
     //try to free memory not from current range
-    assert(isInRange(free_item));
+    if (!isInRange(free_item))
+        throw std::out_of_range("item not in range");
+
 
     MrgItem *add2listItem = reinterpret_cast<MrgItem *> (free_item);
     add2listItem->next_ = head_;
     head_ = add2listItem;
-}
-
-MemMrg::MemMrg(const MemMrg &mem):
-    max_size_(0)
-{
-    assert(false);
-}
-
-MemMrg &MemMrg::operator=(const MemMrg &mem)
-{
-    assert(false);
 }
 
 bool MemMrg::isInRange(void *item2check)
