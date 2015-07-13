@@ -14,13 +14,14 @@ MemMrg::MemMrg(const int max_size):
     mrg_buf_(NULL),
     head_(NULL)
 {
-    mrg_buf_ = new MrgItem [max_size_];
+    mrg_buf_ = new MrgItem[max_size_];
     head_ = mrg_buf_;
 
     for (int i = 0; i < max_size_-1; i++) {
-        MrgItem* cur_item = mrg_buf_+i;
-        cur_item->next_ = cur_item+1;
+        mrg_buf_[i].next_ = &mrg_buf_[i+1];
     }
+
+    mrg_buf_[max_size_-1].next_ = NULL;
 }
 
 MemMrg::~MemMrg()
@@ -28,20 +29,15 @@ MemMrg::~MemMrg()
     delete [] mrg_buf_;
 }
 
-void *MemMrg::my_alloc(Data alloc_item)
+void *MemMrg::my_alloc()
 {
     //no free memory in buffer
     if (head_ == NULL)
         throw std::bad_alloc();
 
-
-    MrgItem* next_head = head_->next_;
-    head_->item_val_ = alloc_item;
-    head_->next_ = NULL;
-
     void* result = reinterpret_cast<void *> (head_);
 
-    head_ = next_head;
+    head_ = head_->next_;
 
     return result;
 }
@@ -60,10 +56,10 @@ void MemMrg::my_free(void *free_item)
 
 bool MemMrg::isInRange(void *item2check)
 {
-    if (&(mrg_buf_->item_val_) > item2check)
+    if (reinterpret_cast<void *> (mrg_buf_) > item2check)
         return false;
 
-    if (&((mrg_buf_+max_size_)->item_val_) < item2check)
+    if (reinterpret_cast<void *> (mrg_buf_+max_size_) < item2check)
         return false;
 
     return true;

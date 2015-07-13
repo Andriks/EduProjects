@@ -2,7 +2,7 @@
 #define MEMMRG_H
 
 
-typedef int Data;
+typedef char Data;
 
 
 class MemMrg
@@ -11,15 +11,16 @@ class MemMrg
     {
         MrgItem();
 
-        Data item_val_;
         MrgItem *next_;
+        char item_val_[28];
+
     };
 
 public:
     MemMrg(const int max_size = 100);
     ~MemMrg();
 
-    void* my_alloc(Data init_value = 0);
+    void* my_alloc();
     void my_free(void*);
 
 private:
