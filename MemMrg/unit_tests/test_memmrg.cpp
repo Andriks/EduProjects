@@ -9,7 +9,7 @@
 BOOST_AUTO_TEST_CASE( test_1 )
 {
     MemMrg mrg;
-    Data *val;
+    int *val;
     BOOST_CHECK_THROW( mrg.my_free(val), std::out_of_range );    // not very logic exception in this case
 }
 
@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE( test_4 )
 {
     MemMrg mrg1(5);
 
-    Data *val1 = reinterpret_cast<Data *> (mrg1.my_alloc());
+    int *val1 = reinterpret_cast<int *> (mrg1.my_alloc());
     void *val2 = mrg1.my_alloc();
     void *val3 = mrg1.my_alloc();
     void *val4 = mrg1.my_alloc();
