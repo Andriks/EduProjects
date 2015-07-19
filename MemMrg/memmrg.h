@@ -3,7 +3,7 @@
 
 //couldn't figure out how to use static_assert in c++11 style, so use such trick instead
 #define STATIC_ASSERT(COND,MSG) typedef char static_assertion_##MSG[(COND)?1:-1]
-STATIC_ASSERT(sizeof(char) == 1, sizeof_char_should_be_one_byte);
+
 
 
 class MemMrg
@@ -18,6 +18,9 @@ class MemMrg
 
     };
 #pragma pack(pop)
+
+STATIC_ASSERT(sizeof(char) == 1, required_sizeof_char_eq_1_byte);
+STATIC_ASSERT(sizeof(MrgItem) == 32, required_sizeof_MrgItem_eq_32_bytes);
 
 public:
     MemMrg(const int max_size = 100);
