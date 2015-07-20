@@ -35,9 +35,7 @@ void *MemMrg::my_alloc()
         throw std::bad_alloc();
 
     void *result = head_;
-
-    void **tmp = reinterpret_cast<void**> (head_);
-    head_ = *tmp;
+    head_ = *reinterpret_cast<void**> (head_);
 
     return result;
 }
