@@ -2,28 +2,24 @@
 
 #include <stdexcept>
 
-
-MemMrg::MrgItem::MrgItem():
-    next_(NULL)
-{
-}
+const int MemMrg::item_size_(32);
 
 
 MemMrg::MemMrg(const int max_size):
-    max_size_(max_size),
+    item_cnt_(max_size),
     mrg_buf_(NULL),
     head_(NULL)
 {
-    mrg_buf_ = new char[32*max_size];;
+    mrg_buf_ = new char[item_size_*item_cnt_];;
     head_ = reinterpret_cast<void*> (mrg_buf_);
 
 
-    for (int i = 0; i < 32*max_size_-32; i+=32) {
+    for (int i = 0; i < item_size_*(item_cnt_-1); i+=item_size_) {
         char **curr = reinterpret_cast<char**> (mrg_buf_+i);
-        *curr = mrg_buf_+i+32;
+        *curr = mrg_buf_ + i + item_size_;
     }
 
-    char **last = reinterpret_cast<char**> (mrg_buf_+32*max_size_-32);
+    char **last = reinterpret_cast<char**> (mrg_buf_ + item_size_*(item_cnt_-1));
     *last = NULL;
 }
 
@@ -58,12 +54,12 @@ void MemMrg::my_free(void *free_item)
     head_ = free_item;
 }
 
-bool MemMrg::isInRange(void *item2check)
+bool MemMrg::isInRange(void *item_to_check)
 {
-    if (reinterpret_cast<void*> (mrg_buf_) > item2check)
+    if (reinterpret_cast<void*> (mrg_buf_) > item_to_check)
         return false;
 
-    if (reinterpret_cast<void*> (mrg_buf_+max_size_*32) < item2check)
+    if (reinterpret_cast<void*> (mrg_buf_+item_size_*item_cnt_) < item_to_check)
         return false;
 
     return true;
