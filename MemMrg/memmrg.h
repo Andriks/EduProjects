@@ -40,8 +40,7 @@ private:
 private:
     const int max_size_;
     char *mrg_buf_;
-    char *head_;
-
+    void *head_;
 };
 
 

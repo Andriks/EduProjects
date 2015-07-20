@@ -15,7 +15,7 @@ MemMrg::MemMrg(const int max_size):
     head_(NULL)
 {
     mrg_buf_ = new char[32*max_size];;
-    head_ = mrg_buf_;
+    head_ = reinterpret_cast<void*> (mrg_buf_);
 
 
     for (int i = 0; i < 32*max_size_-32; i+=32) {
@@ -38,9 +38,9 @@ void *MemMrg::my_alloc()
     if (head_ == NULL)
         throw std::bad_alloc();
 
-    void* result = reinterpret_cast<void*> (head_);
+    void *result = head_;
 
-    char **tmp = reinterpret_cast<char**> (head_);
+    void **tmp = reinterpret_cast<void**> (head_);
     head_ = *tmp;
 
     return result;
@@ -52,12 +52,10 @@ void MemMrg::my_free(void *free_item)
     if (!isInRange(free_item))
         throw std::out_of_range("item not in range");
 
-    char *item = reinterpret_cast<char*> (free_item);
-
-    char **ptr_to_item = reinterpret_cast<char**> (free_item);
+    void **ptr_to_item = reinterpret_cast<void**> (free_item);
     *ptr_to_item = head_;
 
-    head_ = item;
+    head_ = free_item;
 }
 
 bool MemMrg::isInRange(void *item2check)
