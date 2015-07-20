@@ -14,14 +14,17 @@ MemMrg::MemMrg(const int max_size):
     mrg_buf_(NULL),
     head_(NULL)
 {
-    mrg_buf_ = new MrgItem[max_size_];
+    mrg_buf_ = new char[32*max_size];;
     head_ = mrg_buf_;
 
-    for (int i = 0; i < max_size_-1; i++) {
-        mrg_buf_[i].next_ = &mrg_buf_[i+1];
+
+    for (int i = 0; i < 32*max_size_-32; i+=32) {
+        char **curr = reinterpret_cast<char**> (mrg_buf_+i);
+        *curr = mrg_buf_+i+32;
     }
 
-    mrg_buf_[max_size_-1].next_ = NULL;
+    char **last = reinterpret_cast<char**> (mrg_buf_+32*max_size_-32);
+    *last = NULL;
 }
 
 MemMrg::~MemMrg()
@@ -35,9 +38,10 @@ void *MemMrg::my_alloc()
     if (head_ == NULL)
         throw std::bad_alloc();
 
-    void* result = reinterpret_cast<void *> (head_);
+    void* result = reinterpret_cast<void*> (head_);
 
-    head_ = head_->next_;
+    char **tmp = reinterpret_cast<char**> (head_);
+    head_ = *tmp;
 
     return result;
 }
@@ -48,18 +52,20 @@ void MemMrg::my_free(void *free_item)
     if (!isInRange(free_item))
         throw std::out_of_range("item not in range");
 
+    char *item = reinterpret_cast<char*> (free_item);
 
-    MrgItem *add2listItem = reinterpret_cast<MrgItem *> (free_item);
-    add2listItem->next_ = head_;
-    head_ = add2listItem;
+    char **ptr_to_item = reinterpret_cast<char**> (free_item);
+    *ptr_to_item = head_;
+
+    head_ = item;
 }
 
 bool MemMrg::isInRange(void *item2check)
 {
-    if (reinterpret_cast<void *> (mrg_buf_) > item2check)
+    if (reinterpret_cast<void*> (mrg_buf_) > item2check)
         return false;
 
-    if (reinterpret_cast<void *> (mrg_buf_+max_size_) < item2check)
+    if (reinterpret_cast<void*> (mrg_buf_+max_size_*32) < item2check)
         return false;
 
     return true;

@@ -39,8 +39,8 @@ private:
 
 private:
     const int max_size_;
-    MrgItem *mrg_buf_;
-    MrgItem *head_;
+    char *mrg_buf_;
+    char *head_;
 
 };
 
