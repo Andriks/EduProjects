@@ -15,11 +15,11 @@ MemMrg::MemMrg(const int max_size):
 
 
     for (int i = 0; i < item_size_*(item_cnt_-1); i+=item_size_) {
-        char **curr = reinterpret_cast<char**> (mrg_buf_+i);
-        *curr = mrg_buf_ + i + item_size_;
+        void **curr = reinterpret_cast<void**> (mrg_buf_+i);
+        *curr = reinterpret_cast<void*> (mrg_buf_ + i + item_size_);
     }
 
-    char **last = reinterpret_cast<char**> (mrg_buf_ + item_size_*(item_cnt_-1));
+    void **last = reinterpret_cast<void**> (mrg_buf_ + item_size_*(item_cnt_-1));
     *last = NULL;
 }
 
